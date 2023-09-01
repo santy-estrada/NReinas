@@ -68,7 +68,7 @@ public class NReinas {
 		soluciones[soluciones.length-1] = new int[dim][dim];
 		/*
 		 * Para guardar la información de un arreglo bidimensional:
-		 * 	- Usar arraycopy() porque pasa los valores por valor y no por referencia
+		 * 	- Usar arraycopy() porque pasa las variables por valor y no por referencia
 		 * 	- Usar for porque se deben guardar los datos por casillas (arreglos 1D)
 		 * 	- Los datos se copiarán por fila del tablero de 0 a tablero.length-1
 		 */
