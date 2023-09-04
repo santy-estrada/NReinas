@@ -1,6 +1,6 @@
 package Solucion;
 public class NQueens {
-    private static final int N = 8;
+    private static final int N = 4;
     private static int[][] board = new int[N][N];
     public static void main(String[] args) {
 

@@ -70,10 +70,10 @@ public class NReinas {
 		 * Para guardar la información de un arreglo bidimensional:
 		 * 	- Usar arraycopy() porque pasa las variables por valor y no por referencia
 		 * 	- Usar for porque se deben guardar los datos por casillas (arreglos 1D)
-		 * 	- Los datos se copiarán por fila del tablero de 0 a tablero.length-1
+		 * 	- Los datos se copiarán por fila del tablero de 0 a tablero.length
 		 */
 		for(int i = 0; i < tablero.length; i++) {
-			System.arraycopy(tablero[i], 0, soluciones[soluciones.length-1][i], 0, tablero.length-1);
+			System.arraycopy(tablero[i], 0, soluciones[soluciones.length-1][i], 0, tablero.length);
 		}
 	}
 	
@@ -118,7 +118,7 @@ public class NReinas {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stu
-		int dimension = 8;	//Dimensión a usar
+		int dimension = 4;	//Dimensión a usar
 		
 		int[][][] soluciones = solucionesReina(dimension);
 		
