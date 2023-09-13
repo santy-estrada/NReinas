@@ -78,6 +78,7 @@ public class NReinasInterfaz extends JFrame {
 
     private void mostrarSolucionAnterior() {
         if (soluciones.length > 0) {
+        	//Esto evita índices negativos y permite dar la vuelta
             indiceActual = (indiceActual - 1 + soluciones.length) % soluciones.length;
             mostrarSolucionActual();
         }
