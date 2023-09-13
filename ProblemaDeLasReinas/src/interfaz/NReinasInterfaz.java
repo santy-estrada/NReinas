@@ -1,84 +1,85 @@
 package interfaz;
 
 import Solucion.NReinasVector;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class NReinasInterfaz extends JFrame {
-	private int[][] soluciones;
-	private int indiceActual;
+    private int[][] soluciones;
+    private int indiceActual;
+    private JPanel tableroPanel;
 
-	private JTextArea solucionTextArea;
-	private JButton anteriorButton;
-	private JButton siguienteButton;
-	private JLabel JlabelsolucionNum;
+    public NReinasInterfaz(int[][] soluciones) {
+        this.soluciones = soluciones;
+        this.indiceActual = 0;
 
-	public NReinasInterfaz(int[][] soluciones) {
-		this.soluciones = soluciones;
-		this.indiceActual = 0;
+        setTitle("Soluciones del Problema de las N Reinas");
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setSize(400, 400);
 
-		setTitle("Soluciones del Problema de las N Reinas");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setSize(400, 300);
+        tableroPanel = new JPanel(new GridLayout(soluciones[0].length, soluciones[0].length));
+        add(tableroPanel, BorderLayout.CENTER);
 
-		solucionTextArea = new JTextArea(10, 30);
-		solucionTextArea.setEditable(false);
+        JPanel buttonPanel = new JPanel();
+        JButton anteriorButton = new JButton("Anterior");
+        JButton siguienteButton = new JButton("Siguiente");
 
-		anteriorButton = new JButton("Anterior");
-		siguienteButton = new JButton("Siguiente");
+        anteriorButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                mostrarSolucionAnterior();
+            }
+        });
 
-		anteriorButton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				mostrarSolucionAnterior();
-			}
-		});
+        siguienteButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                mostrarSiguienteSolucion();
+            }
+        });
 
-		siguienteButton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				mostrarSiguienteSolucion();
-			}
-		});
+        buttonPanel.add(anteriorButton);
+        buttonPanel.add(siguienteButton);
 
-		JPanel buttonPanel = new JPanel();
-		buttonPanel.add(anteriorButton);
-		buttonPanel.add(siguienteButton);
+        add(buttonPanel, BorderLayout.SOUTH);
 
-		getContentPane().add(solucionTextArea, BorderLayout.CENTER);
-		getContentPane().add(buttonPanel, BorderLayout.SOUTH);
+        mostrarSolucionActual();
+    }
 
-		JlabelsolucionNum = new JLabel("Solucion " + (indiceActual+1));
-		JlabelsolucionNum.setHorizontalAlignment(SwingConstants.CENTER);
-		getContentPane().add(JlabelsolucionNum, BorderLayout.NORTH);
+    private void mostrarSolucionActual() {
+        if (soluciones.length == 0) {
+            JOptionPane.showMessageDialog(this, "No hay soluciones disponibles.");
+            return;
+        }
 
-		mostrarSolucionActual();
-	}
+        int[] solucionActual = soluciones[indiceActual];
+        tableroPanel.removeAll();
 
-	private void mostrarSolucionActual() {
-		if (soluciones.length == 0) {
-			solucionTextArea.setText("No hay soluciones disponibles.");
-		} else {
-			int[] solucionActual = soluciones[indiceActual];
-			StringBuilder textoSolucion = new StringBuilder();
-			for (int i = 0; i < solucionActual.length; i++) {
-				for (int j = 0; j < solucionActual.length; j++) {
-					textoSolucion.append(solucionActual[i] == j ? "X " : "O ");
-				}
-				textoSolucion.append("\n");
-			}
-			solucionTextArea.setText(textoSolucion.toString());
-		}
-	}
+        for (int i = 0; i < solucionActual.length; i++) {
+            for (int j = 0; j < solucionActual.length; j++) {
+                JPanel casilla = new JPanel();
+                casilla.setPreferredSize(new Dimension(40, 40)); // Tamaño de cada casilla
+                casilla.setBackground((i + j) % 2 == 0 ? Color.WHITE : Color.YELLOW);
 
-	private void mostrarSolucionAnterior() {
+                if (solucionActual[i] == j) {
+                    casilla.add(new JLabel("Q", SwingConstants.CENTER)); // "Q" representa una reina
+                }
+
+                tableroPanel.add(casilla);
+            }
+        }
+
+        tableroPanel.revalidate();
+        tableroPanel.repaint();
+        actualizarNumeroSolucion();
+    }
+
+    private void mostrarSolucionAnterior() {
         if (soluciones.length > 0) {
             indiceActual = (indiceActual - 1 + soluciones.length) % soluciones.length;
             mostrarSolucionActual();
-            actualizarNumeroSolucion();
         }
     }
 
@@ -86,28 +87,24 @@ public class NReinasInterfaz extends JFrame {
         if (soluciones.length > 0) {
             indiceActual = (indiceActual + 1) % soluciones.length;
             mostrarSolucionActual();
-            actualizarNumeroSolucion();
         }
     }
 
     private void actualizarNumeroSolucion() {
-        JlabelsolucionNum.setText("Solucion " + (indiceActual+1));
+        setTitle("Solución " + (indiceActual + 1));
     }
-	public static void main(String[] args) {
-		// Supongamos que tienes una matriz de soluciones previamente generadas
-		NReinasVector nr = new NReinasVector();
 
-		int[][] soluciones = nr.NReinasVect(8);
+    public static void main(String[] args) {
+        // Supongamos que tienes una matriz de soluciones previamente generadas
+        NReinasVector nr = new NReinasVector();
+        int[][] soluciones = nr.NReinasVect(8);
 
-		SwingUtilities.invokeLater(new Runnable() {
-			@Override
-			public void run() {
-				NReinasInterfaz gui = new NReinasInterfaz(soluciones);
-				gui.setVisible(true);
-			}
-		});
-	}
-
-	// El código de NReinasVect debe estar disponible aquí
-	// para que funcione correctamente.
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                NReinasInterfaz gui = new NReinasInterfaz(soluciones);
+                gui.setVisible(true);
+            }
+        });
+    }
 }
