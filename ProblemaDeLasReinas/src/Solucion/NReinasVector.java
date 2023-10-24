@@ -38,14 +38,14 @@ public class NReinasVector {
 			 * También se debe sumar 1 antes de verificar si la posición es válida
 			 * 	No tiene sentido no hacerlo porque se estaría analizando la misma posición infinitas veces
 			 */
-			sol[etapa]++;
+			sol[etapa]++;	//Se pasa de columna
 			//Si el valor ya es igual al largo del tablero, hace backtracking 
 			if(sol[etapa] == sol.length) {
 				sol[etapa] = -1;
 				flag = false;	//Se debe salir del ciclo
 				
 			}else if(valido(sol, etapa)) {//Si la posición es válida, pasa a la siguiente columna
-				reinas(sol, etapa+1);	
+				reinas(sol, etapa+1);	//Se pasa de fila
 			}
 				
 			

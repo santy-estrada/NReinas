@@ -61,7 +61,7 @@ public class NReinasInterfaz extends JFrame {
             for (int j = 0; j < solucionActual.length; j++) {
                 JPanel casilla = new JPanel();
                 casilla.setPreferredSize(new Dimension(40, 40)); // Tamaño de cada casilla
-                casilla.setBackground((i + j) % 2 == 0 ? Color.WHITE : Color.YELLOW);
+                casilla.setBackground((i + j) % 2 == 0 ? Color.WHITE : Color.GRAY);
 
                 if (solucionActual[i] == j) {
                     casilla.add(new JLabel("Q", SwingConstants.CENTER)); // "Q" representa una reina
